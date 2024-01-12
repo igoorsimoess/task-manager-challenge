@@ -4,4 +4,6 @@ class Task < ApplicationRecord
   validates :description, presence: true
   validates :date, presence: true
   validates :category, presence: true
+
+  belongs_to :user
 end

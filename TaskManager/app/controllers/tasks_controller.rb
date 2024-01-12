@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
 
   def index
-    @tasks = Task.all
+    # Fetch tasks only for the current user
+    @tasks = current_user.tasks
     render json: @tasks
   end
 
@@ -15,7 +16,8 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    # @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       render json: @task, status: :created
     else
@@ -41,9 +43,9 @@ class TasksController < ApplicationController
 
   def set_task
     begin
-        @task = Task.find(params[:id])
+      @task = current_user.tasks.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Task not found' }, status: :not_found
+      render json: { error: 'Task not found' }, status: :not_found
     end
   end
 
