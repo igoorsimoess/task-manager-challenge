@@ -56,7 +56,7 @@ const Form: FC<FormProps> = ({
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md "
+                className="px-3 py-2 border border-gray-300 rounded-md bg-gray-600"
                 />
             </div>
 
@@ -68,7 +68,7 @@ const Form: FC<FormProps> = ({
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-gray-300 rounded-md bg-gray-600"
                 />
             </div>
 
@@ -81,7 +81,7 @@ const Form: FC<FormProps> = ({
                 id="dueDate"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-gray-300 rounded-md bg-gray-600"
                 />
             </div>
             <div className="flex flex-col">
@@ -93,12 +93,12 @@ const Form: FC<FormProps> = ({
                 id="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-gray-300 rounded-md bg-gray-600"
                 />
             </div>
             <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
             >
                Criar Tarefa 
             </button>
