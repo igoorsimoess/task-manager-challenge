@@ -7,7 +7,7 @@ interface Task {
   id: number;
   title: string;
   description: string;
-  dueDate: string;
+  date: string;
   category: string;
 }
 
@@ -33,6 +33,7 @@ const App: React.FC = () => {
 
         const data = await response.json();
         setTasks(data);
+        console.log(data)
       } catch (error) {
         console.error("Error fetching tasks:", (error as Error).message);
       }
@@ -64,6 +65,7 @@ const App: React.FC = () => {
         date: dueDate,
         category,
       };
+      console.log(requestBody.date);
 
       const response = await fetch("http://127.0.0.1:3000/tasks", {
         method: "POST",
@@ -114,6 +116,7 @@ const App: React.FC = () => {
       const requestBody = {
         ...updatedFields,
       };
+
       console.log(updatedFields);
       const response = await fetch(`http://127.0.0.1:3000/tasks/${id}`, {
         method: "PATCH",
@@ -123,6 +126,7 @@ const App: React.FC = () => {
         },
         body: JSON.stringify(requestBody),
       });
+      console.log(response);
       console.log(response);
 
       if (response.ok) {
@@ -187,17 +191,17 @@ const App: React.FC = () => {
               {/* <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" > */}
               <h2 className="text-xl font-semibold mb-2">Atualizar Tarefa</h2>
               <Form
-                onSubmit={(title, description, dueDate, category) =>
+                onSubmit={(title, description, date, category) =>
                   handleUpdateTask(editTask.id, {
                     title,
                     description,
-                    dueDate,
+                    date,
                     category,
                   })
                 }
                 initialTitle={editTask.title}
                 initialDescription={editTask.description}
-                initialDueDate={editTask.dueDate}
+                initialDueDate={editTask.date}
               />
             </div>
           ) : (
@@ -221,16 +225,17 @@ const App: React.FC = () => {
                 <p className="mb-2 font-semibold ">
                   Categoria: {task.category}
                 </p>
-                <p className="mb-2 font-black">Data: {task.dueDate}</p>
+                <p className="mb-2 font-semibold">
+                  Data: {task.date}</p>
                 <button
                   onClick={() => handleEditTask(task)}
-                  className="bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  className="bg-blue-900 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded mr-2"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDeleteTask(task.id)}
-                  className="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-red-700 hover:bg-red-950  text-white font-bold py-2 px-4 rounded"
                 >
                   Excluir
                 </button>
