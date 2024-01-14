@@ -1,12 +1,12 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { Form } from "semantic-ui-react";
-import { Link, useNavigate } from "react-router-dom"; // Import useHistory for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom for navigation
 
-interface LoginProps {
+interface SignUpProps {
   onSubmit: (username: string, password: string) => void;
 }
 
-const Login: FC<LoginProps> = () => {
+const SignUp: FC<SignUpProps> = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -16,7 +16,7 @@ const Login: FC<LoginProps> = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:3000/auth/login", {
+      const response = await fetch("http://127.0.0.1:3000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,31 +27,25 @@ const Login: FC<LoginProps> = () => {
         }),
       });
 
-      if (response.status === 202) {
+      if (response.status === 201) {
         const data = await response.json();
         const token = data.token;
         localStorage.setItem("token", token);
-        
-        // Redirect to TaskManager page on successful sign in
         navigate("/task_manager");
-      } else if (response.status === 401) {
-        setErrorMessage("This user is not registered");
+      } else if (response.status === 422) {
+        setErrorMessage(
+          "Username already taken. Please choose a different one."
+        );
       }
     } catch (error) {
       console.error("Error during authentication", error);
-      setErrorMessage("Server side error");
     }
   };
-
-  useEffect(() => {
-    // Clear error message when the component mounts
-    setErrorMessage(null);
-  }, []);
 
   return (
     <div className="bg-slate-100">
       <h1 className="text-center font-bold text-3xl b-4 text-gray-800">
-        Log in 
+        Sign up
       </h1>
       <form
         className="max-w-md mx-auto h-fit bg-slate-950 bg-opacity-20 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 space-y-4"
@@ -91,16 +85,16 @@ const Login: FC<LoginProps> = () => {
             type="submit"
             className="bg-slate-700 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded"
           >
-            Login
+            Register
           </button>
         </div>
 
         <div className="text-center text-gray-600 mt-4">
-          <Link to="/sign_up">Don't have an account yet? Sign Up </Link>
+          <Link to="/login">Already have an account? Login </Link>
         </div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;
