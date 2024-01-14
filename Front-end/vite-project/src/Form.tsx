@@ -62,7 +62,7 @@ const Form: FC<FormProps> = ({
 
             <div className="flex flex-col">
                 <label htmlFor="description" className="mb-1 font-bold">
-                Descricao
+                Descrição 
                 </label>
                 <textarea
                 id="description"
