@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Form } from "semantic-ui-react";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom for navigation
+import { Link, useNavigate } from "react-router-dom"; 
 
 interface SignUpProps {
   onSubmit: (username: string, password: string) => void;
