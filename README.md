@@ -67,7 +67,7 @@ Abaixo, estão listadas as ferramentas utilizadas no desenvolvimento do projeto 
 ### Construido com
 
 
-[![My Skills](https://skillicons.dev/icons?i=ruby,rails,ts,js,react,tailwind,html,css)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=ruby,rails,ts,js,react,tailwind,docker,vite,html,css)](https://skillicons.dev)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
