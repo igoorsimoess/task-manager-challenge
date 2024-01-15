@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Form } from "semantic-ui-react";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
 interface SignUpProps {
   onSubmit: (username: string, password: string) => void;
@@ -43,12 +43,12 @@ const SignUp: FC<SignUpProps> = () => {
   };
 
   return (
-    <div className="bg-slate-100">
+    <>
       <h1 className="text-center font-bold text-3xl b-4 text-gray-800">
         Sign up
       </h1>
       <form
-        className="max-w-md mx-auto h-fit bg-slate-950 bg-opacity-20 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 space-y-4"
+        className="max-w-md mx-auto h-fit bg-sky-950 bg-opacity-100 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 space-y-4"
         onSubmit={handleSignUp}
       >
         {errorMessage && (
@@ -56,7 +56,7 @@ const SignUp: FC<SignUpProps> = () => {
         )}
 
         <Form.Field className="flex flex-col">
-          <label htmlFor="username" className="mb-1 font-bold">
+          <label htmlFor="username" className="mb-1 font-bold text-white">
             Username
           </label>
           <input
@@ -64,12 +64,13 @@ const SignUp: FC<SignUpProps> = () => {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md bg-gray-500"
+
+            className="px-3 py-2 border border-gray-300 rounded-md bg-cyan-900"
           />
         </Form.Field>
 
         <div className="flex flex-col">
-          <label htmlFor="password" className="mb-1 font-bold">
+          <label htmlFor="password" className="mb-1 font-bold text-white">
             Password
           </label>
           <input
@@ -77,23 +78,23 @@ const SignUp: FC<SignUpProps> = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md bg-slate-400"
+            className="px-3 py-2 border border-gray-300 rounded-md bg-cyan-900"
           />
         </div>
         <div>
           <button
             type="submit"
-            className="bg-slate-700 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded"
+            className="bg-cyan-900 hover:bg-cyan-950 text-white font-bold py-2 px-4 rounded"
           >
             Register
           </button>
         </div>
 
-        <div className="text-center text-gray-600 mt-4">
-          <Link to="/login">Already have an account? Login </Link>
+        <div className="ml-10 text-center hover:bg-slate-900 size-fit align-middle text-white mt-4">
+          <Link to="/">Already have an account? Login </Link>
         </div>
       </form>
-    </div>
+    </>
   );
 };
 
