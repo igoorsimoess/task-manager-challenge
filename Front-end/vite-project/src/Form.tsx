@@ -57,6 +57,24 @@ const Form: FC<FormProps> = ({
 
   const handleInputChange = (fieldName: string, value: string) => {
     onFieldChange(fieldName, value);
+
+    // Update the local state based on the field name
+    switch (fieldName) {
+      case "title":
+        setTitle(value);
+        break;
+      case "description":
+        setDescription(value);
+        break;
+      case "dueDate":
+        setDueDate(value);
+        break;
+      case "category":
+        setCategory(value);
+        break;
+      default:
+        break;
+    }
   };
 
   return (

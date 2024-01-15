@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [editedFields, setEditedFields] = useState<Partial<Task>>({});
 
   useEffect(() => {
     // fetch tasks from the backend when the component mounts
@@ -33,7 +34,7 @@ const App: React.FC = () => {
 
         const data = await response.json();
         setTasks(data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
         console.error("Error fetching tasks:", (error as Error).message);
       }
@@ -107,17 +108,17 @@ const App: React.FC = () => {
 
   const handleEditTask = (task: Task) => {
     setEditTask(task);
+    setEditedFields({}); // Clear any previous edited fields
   };
 
-  const handleUpdateTask = async (id: number, updatedFields: Partial<Task>) => {
+  const handleUpdateTask = async (id: number) => {
     try {
       const token = localStorage.getItem("token");
 
       const requestBody = {
-        ...updatedFields,
+        ...editedFields,
       };
 
-      console.log(updatedFields);
       const response = await fetch(`http://127.0.0.1:3000/tasks/${id}`, {
         method: "PATCH",
         headers: {
@@ -126,8 +127,6 @@ const App: React.FC = () => {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log(response);
-      console.log(response);
 
       if (response.ok) {
         // Task updated successfully, update the UI
@@ -137,6 +136,7 @@ const App: React.FC = () => {
         );
         setTasks(updatedTasks);
         setEditTask(null); // Clear the edit task after successful update
+        setEditedFields({}); // Clear the edited fields
       } else if (response.status === 422) {
         // Validation error, handle and display error message to the user
         const errorData = await response.json();
@@ -149,6 +149,16 @@ const App: React.FC = () => {
       console.error("Error updating task:", (error as Error).message);
     }
   };
+  const handleFieldChange = (fieldName: string, value: string) => {
+    setEditedFields((prevFields) => ({
+      ...prevFields,
+      [fieldName]: value,
+    }));
+  };
+  const doNothing = () => {
+    console.log()
+  }
+
   const handleDeleteTask = async (taskId: number) => {
     try {
       const token = localStorage.getItem("token");
@@ -179,7 +189,7 @@ const App: React.FC = () => {
     localStorage.removeItem("token");
   };
   return (
-    <div className="bg-slate-950 text- text-gray-200 bg-opacity-70 h-screen">
+    <div className="bg-slate-950 text- text-gray-200 bg-opacity-100 -m-2 h-screen">
       <div className="max-w-screen-2xl mx-2 px-3.5 py-8 grid grid-cols-2 gap-8">
         <div>
           {errorMessage && (
@@ -188,17 +198,12 @@ const App: React.FC = () => {
           {/* Displays Atualizar tarefa if the "editar" button was pressed, else it will just show criar */}
           {editTask ? (
             <div className=" text-center">
-              {/* <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" > */}
+              {/* <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" > */} 
               <h2 className="text-xl font-semibold mb-2">Atualizar Tarefa</h2>
               <Form
-                onSubmit={(title, description, date, category) =>
-                  handleUpdateTask(editTask.id, {
-                    title,
-                    description,
-                    date,
-                    category,
-                  })
-                }
+                onSubmit={() => handleUpdateTask(editTask.id)}
+                onFieldChange={handleFieldChange}
+                editedFields={editedFields}
                 initialTitle={editTask.title}
                 initialDescription={editTask.description}
                 initialDueDate={editTask.date}
@@ -208,7 +213,7 @@ const App: React.FC = () => {
             // <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" >
             <div className="text-center">
               <h2 className="text-xl font-semibold mb-2 py-2">Criar Tarefa</h2>
-              <Form onSubmit={handleTaskSubmit} />
+              <Form onFieldChange={handleFieldChange} onSubmit={handleTaskSubmit} />
             </div>
           )}
         </div>
@@ -225,8 +230,7 @@ const App: React.FC = () => {
                 <p className="mb-2 font-semibold ">
                   Categoria: {task.category}
                 </p>
-                <p className="mb-2 font-semibold">
-                  Data: {task.date}</p>
+                <p className="mb-2 font-semibold">Data: {task.date}</p>
                 <button
                   onClick={() => handleEditTask(task)}
                   className="bg-blue-900 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded mr-2"
@@ -247,8 +251,9 @@ const App: React.FC = () => {
       </div>
       <button
         onClick={() => handleLogout()}
-        className="bg-red-600 hover:bg-red-800 text-white m-4 font-bold py-2 px-4 rounded absolute bottom-0 right-0">
-        <Link to="/login">Log Out</Link>
+        className="bg-red-600 hover:bg-red-800 text-white m-4 font-bold py-2 px-4 rounded absolute bottom-0 right-0"
+      >
+        <Link to="/">Log Out</Link>
         <div></div>
       </button>
     </div>
