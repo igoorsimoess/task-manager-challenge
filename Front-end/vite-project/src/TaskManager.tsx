@@ -155,9 +155,6 @@ const App: React.FC = () => {
       [fieldName]: value,
     }));
   };
-  const doNothing = () => {
-    console.log()
-  }
 
   const handleDeleteTask = async (taskId: number) => {
     try {
@@ -171,11 +168,11 @@ const App: React.FC = () => {
       });
 
       if (response.status === 204) {
-        // Task deleted successfully, update the UI
+        // update the UI
         const updatedTasks = tasks.filter((task) => task.id !== taskId);
         setTasks(updatedTasks);
       } else if (response.status === 404) {
-        // Task not found, handle and display error message to the user
+        // not found
         console.error("Task not found:", taskId);
       } else {
         // Handle other error cases
@@ -198,7 +195,6 @@ const App: React.FC = () => {
           {/* Displays Atualizar tarefa if the "editar" button was pressed, else it will just show criar */}
           {editTask ? (
             <div className=" text-center">
-              {/* <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" > */} 
               <h2 className="text-xl font-semibold mb-2">Atualizar Tarefa</h2>
               <Form
                 onSubmit={() => handleUpdateTask(editTask.id)}
@@ -210,7 +206,6 @@ const App: React.FC = () => {
               />
             </div>
           ) : (
-            // <div className="mb-4 text-center bg-gray-900 bg-opacity-10 rounded-3xl h-fit" >
             <div className="text-center">
               <h2 className="text-xl font-semibold mb-2 py-2">Criar Tarefa</h2>
               <Form onFieldChange={handleFieldChange} onSubmit={handleTaskSubmit} />

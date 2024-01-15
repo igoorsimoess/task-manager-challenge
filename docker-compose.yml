@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: TaskManager
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres223
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  frontend:
+    build:
+      # remember: the context is where the docker-compose will search
+      context: ./Front-end/vite-project
+      dockerfile: ./Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - taskmanager
+
+  taskmanager:
+    build:
+      context: ./TaskManager
+      dockerfile: ./Dockerfile.backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=database
+      - ...
+    depends_on:
+      - db 
+    entrypoint: /usr/bin/entrypoint.sh
+
+
+volumes:
+  postgres_data:
