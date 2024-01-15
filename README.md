@@ -60,7 +60,7 @@ Abaixo, estão listadas as ferramentas utilizadas no desenvolvimento do projeto 
 <div>
     <img src="images/Screenshot from 2024-01-15 17-42-28.png" alt="Logo" width="300" height="200">
     <img src="images/Screenshot from 2024-01-15 17-43-16.png" alt="Logo" width="300" height="200">
-    <img src="images/Screenshot from 2024-01-15 17-42-43.png" alt="Logo" width="300" height="200">
+    <img src="images/Screenshot from 2024-01-15 17-42-43.png" alt="Logo" width="400" height="200" align-items="center">
 </div>
 
 
