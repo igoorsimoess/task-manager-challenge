@@ -125,6 +125,7 @@ Nesta sessão, discuto a implementação e decisão da arquitetura do projeto e 
 - [ ] Camada de Cache 
 - [ ] DB Indexing 
 - [x] Documentar decisões de Projeto
+- [ ] Configurar Integração Contínua
 
 
 
