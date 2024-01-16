@@ -13,6 +13,18 @@ default: &default
 development:
   <<: *default
 
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   username: postgres
+#   password: postgres223
+#   database: TaskManager
+#   host: localhost 
+#   port: 5432
+# development:
+#   <<: *default
+#   database: TaskManager_development
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is

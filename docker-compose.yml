@@ -9,9 +9,9 @@ services:
       POSTGRES_PASSWORD: postgres223
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   frontend:
     build:
-      # remember: the context is where the docker-compose will search
       context: ./Front-end/vite-project
       dockerfile: ./Dockerfile.frontend
     ports:
@@ -26,12 +26,17 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DB_HOST=database
-      - ...
+      - DB_HOST=db
+      - REDIS_URL=redis://redis:6379/0 
     depends_on:
-      - db 
+      - db
+      - redis
     entrypoint: /usr/bin/entrypoint.sh
 
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:
