@@ -5,13 +5,14 @@ class TasksController < ApplicationController
     tasks = Rails.cache.fetch("user_#{current_user.id}_tasks", expires_in: 1.hour) do
       tasks_from_db = current_user.tasks.to_a
       puts "Not using cached content for user #{current_user.id} tasks."
-      render json: tasks_from_db
+      tasks_from_db
     end
 
     puts "Using cached content for user #{current_user.id} tasks."
 
     render json: tasks
   end
+
 
   def show
     begin
@@ -24,8 +25,8 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      render json: @task, status: :created
       update_tasks_cache(@task)
+      render json: @task, status: :created
     else
       render json: @task.errors, status: :unprocessable_entity
     end
@@ -33,8 +34,8 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      render json: @task
       update_tasks_cache(@task)
+      render json: @task
     else
       render json: @task.errors, status: :unprocessable_entity
     end
@@ -48,26 +49,27 @@ class TasksController < ApplicationController
   private
 
   def update_tasks_cache(task)
-    tasks_from_cache = Rails.cache.fetch('tasks', expires_in: 1.hour) { [] }
+    tasks_from_cache = Rails.cache.fetch("user_#{current_user.id}_tasks", expires_in: 1.hour) { [] }
 
-    index = tasks_from_cache.index { |cached_task| cached_task.id == task.id }
+    index = tasks_from_cache.index { |cached_task| cached_task['id'] == task.id }
 
     if index
-      tasks_from_cache[index] = task
+      tasks_from_cache[index] = task.as_json
     else
-      tasks_from_cache.push(task)
+      tasks_from_cache.push(task.as_json)
     end
 
-    Rails.cache.write('tasks', tasks_from_cache, expires_in: 1.hour)
+    Rails.cache.write("user_#{current_user.id}_tasks", tasks_from_cache, expires_in: 1.hour)
   end
 
   def remove_task_from_cache(task)
     tasks_from_cache = Rails.cache.fetch("user_#{current_user.id}_tasks", expires_in: 1.hour) { [] }
 
-    tasks_from_cache.reject! { |cached_task| cached_task.id == task.id }
+    tasks_from_cache.reject! { |cached_task| cached_task['id'] == task.id }
 
     Rails.cache.write("user_#{current_user.id}_tasks", tasks_from_cache, expires_in: 1.hour)
   end
+
 
   def set_task
     begin
