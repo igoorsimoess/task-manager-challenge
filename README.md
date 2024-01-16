@@ -164,7 +164,7 @@ Para fins de **segurança**
 - A configuração de CORS está restrita apenas para uma porta
 
 - Algumas precauções adicionais ainda devem ser tomadas como colocar em variáveis de ambiente as credenciais do banco de dados por meio de um arquivo .env (Como o banco e API estão contidos no docker, esse requisito faz mais diferença em ambientes de produção).
-- Também devem ser tomadas medidas de precaução contra SQL injections ou outros tipos de ataques como Definal of Service
+- Também devem ser tomadas medidas de precaução contra SQL injections ou outros tipos de ataques como denial of Service
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
